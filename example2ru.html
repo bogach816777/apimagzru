@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenStreetMap Leaflet Example</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <style>
+    .mapsmobile122{
+      display: flex;
+      flex-direction: row-reverse;
+    }
+    #text{
+      height: 0px;
+    }
+    #city-input122{
+      width:93%; /* Зменшення ширини на внутрішні padding */
+  padding: 5px; 
+  box-sizing: border-box;
+      position: relative;
+      border: 2px solid #585858;
+      border-radius: 5px;
+
+      margin-bottom: 5px;
+    }
+    #map122 {
+      height: 600px;
+      width: 65%;
+      float: right;
+      background-color: #dce9a9;
+      position: relative;
+      z-index: 1;
+    }
+    .swiping::after {
+    content: 'Переміщуйте карту двома пальцями';
+    color: #fff;
+    font-size: 24px;
+    font-weight: 300;
+    justify-content:center;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+   pointer-events: none;
+    }
+
+    #search-container122 {
+      overflow: hidden;
+      flex: 1 1 35%;
+
+    }
+    .search-results122 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 5px;
+      overflow: auto;
+     max-height: 487px;
+      position: relative;
+  
+
+}
+
+
+#searchResultList122{
+  max-width: 93%;
+      background-color: #ffffff90;
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+}
+
+#searchResultList122 > span.span-nodisplay122 {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    /* додайте інші стилі, за необхідності */
+}
+#searchResultList122 > span.span-nodisplay122:hover {
+  background-color: #e0e0e0;
+    /* додайте інші стилі, за необхідності */
+}
+    .search-results122::-webkit-scrollbar {
+  width: 10px;
+ /* Ширина смуги прокрутки */
+}
+    .search-results122::-webkit-scrollbar-thumb {
+     -webkit-border-radius: 2px;
+     border-radius: 2px;
+     background: #A2C617;
+ }
+ .search-results122::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Колір фону смуги прокрутки */
+  -webkit-border-radius: 2px;
+     border-radius: 2px;
+}
+    .shop-item122 {
+      font-size: 16px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .shop-item122:hover{
+      color: #b6da2b;
+    }
+    .shop-item122:focus{
+      color: #b6da2b;
+    }
+    .shopItemTime122 {
+      border-bottom: 1px solid gainsboro;
+      margin-bottom: 10px;
+      border-bottom: 1px transparent;
+    }
+    .shop-itemTime{
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    .shopItemTel122{
+      font-size: 14px;
+      margin-bottom: 5px;
+      text-decoration: none;
+      color: #000 !important;
+    }
+    .button-city__list122{
+      all: initial;
+      cursor: pointer;
+      text-decoration: underline;
+      color: #1CB600;
+      margin-right: 8px;
+    }
+    .custom-marker-icon {
+      width: 30px;
+      height: 30px;
+    }
+
+    .span-nodisplay122{
+      cursor: pointer;
+    }
+
+
+  .custom-marker {
+      background-color: red;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    .custom-popup {
+      max-width: 300px;
+      display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    }
+    .leaflet-popup-content-wrapper{
+      width: 250px;
+      text-align: center;
+    }
+    .text a, .product-features__cell a {
+      border-bottom: none !important;
+
+    }
+    .shopItemButton122{
+      font-size: 14px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      border: none;
+      background-color: #A2C617;
+      padding: 10px;
+      font-weight: bold;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .shopItemButton122:hover{
+      color: white; 
+      background: #b6da2b;
+    }
+    .span-nodisplay122{
+      font-size: 16px;
+    }
+    @media screen and (max-width: 768px) {
+  .mapsmobile122 {
+    display: flex;
+    flex-direction: column-reverse; /* Знімаємо зображення з плаваючого положення */
+  }
+  #map122{
+    width: 100%;
+  }
+  #city-input122{
+  width: 100%;
+  }
+  #search-results122 {
+    max-height: 240px;
+  }
+  #searchResultList122{
+    max-width: 100%;
+}
+}
+.popular{
+  color: #585858;
+}
+ #currentCity122{
+  color: #6528b4;
+  margin-top: 5px;
+  
+ }
+ p{
+  margin: 0;
+    padding: 0;
+ }
+ .shopItemNameCity122{
+    color: #585858;
+ }
+#currentCity122{
+  margin-bottom: 5px;
+}
+  </style>
+</head>
+<body>
+<div class="mapsmobile122">
+  <div class="map122" id="map122"></div>
+
+  <div id="search-container122">
+   
+    
+    <div id="city-list">
+      <div class="popular">Популярные города</div>
+      <button class="button-city__list122" onclick="showCityShops('Киев')">Киев</button>
+      <button class="button-city__list122" onclick="showCityShops('Львов')">Львов</button>
+      <button class="button-city__list122" onclick="showCityShops('Харьков')">Харьков</button>
+      <button class="button-city__list122" onclick="showCityShops('Днепр')">Днепр</button>
+      <button class="button-city__list122" onclick="showCityShops('Одесса')">Одесса</button>
+      <p id="currentCity122"></p>
+    </div>
+    <input type="text" id="city-input122" placeholder="Введите название города" oninput="searchCity122()">
+    <div id="searchResultList122" style="display: none;"></div>
+    <!--shop-list122 -->
+    <div class="search-results122" id="search-results122"></div>
+    
+  </div>
+ 
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.rawgit.com/aparshin/leaflet-boundary-canvas/f00b4d35/src/BoundaryCanvas.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+
+  <script>
+
+    let data122 = [];
+    let cities122 = [];
+    let map122;
+    let cityClusters = {};
+    let currentCityMarkers = [];
+    // для хорошопу картинка: /content/uploads/images/ms.png
+  
+    function createCityCluster(cityName) {
+    cityClusters[cityName] = L.markerClusterGroup({
+        
+    });
+    // Додати групу кластерів на карту
+    map122.addLayer(cityClusters[cityName]);
+}
+
+    // Додавання маркера до відповідної групи кластерів за назвою міста
+    function addMarkerToCityCluster(marker, cityName) {
+  if (!cityClusters[cityName]) {
+    createCityCluster(cityName); // Створюємо кластер для міста, якщо його ще немає
+  }
+  cityClusters[cityName].addLayer(marker); // Додаємо маркер до відповідного кластера за назвою міста
+}
+async function fetchData122(callback) {
+      try {
+        const response = await fetch('https://github.com/bogach816777/apimagzru/blob/main/magapiru.json');
+        if (!response.ok) {
+          throw new Error('Не вдалося отримати дані');
+        }
+        data122 = await response.json();
+        // Опрацьовуємо отримані дані
+        callback(data122);
+        function createClusterGroup() {
+  return L.markerClusterGroup();
+}
+
+
+    
+
+
+data122.forEach(item => {
+  const customMarkerPopup = createCustomMarkerPopup122(item);
+  const customIcon = L.icon({
+    iconUrl: '/content/uploads/images/marker.svg', // Посилання на ваше зображення іконки
+    iconSize: [40, 40], // Розміри іконки [ширина, висота]
+    iconAnchor: [26, 47], // Позиція якоря іконки [по X, по Y]
+    popupAnchor: [-6, -40] // Позиція вирику [по X, по Y]
+  });
+
+  const marker = L.marker(item.coordinates, { icon: customIcon }).bindPopup(customMarkerPopup, { maxWidth: 'auto' });
+  
+  // Додавання маркера до відповідної групи кластерів
+  if (item.addto) {
+    addMarkerToCityCluster(marker, item.addto, item.addto);
+  } else {
+    addMarkerToCityCluster(marker, item.city, item.addto);
+  }
+});
+      } catch (error) {
+        console.error('Помилка отримання даних:', error);
+      }
+    }
+
+    // Викликаємо функцію для отримання даних
+    fetchData122(function() {
+      // Створюємо масив cities з використанням даних з API
+      cities122 = data122.map(item => ({
+        name: item.city,
+        latlng: item.cityCoordinates,
+        addto: item.addto,
+        zoom: item.zoomCity,
+        shops: item.coordinates,
+        tel: item.tel,
+        time: item.time,
+        url: item.urlCoodinates
+      }));
+      displayShops122(data122)
+      // Заповнюємо масив shops у кожному місті
+      cities122.forEach(city => {
+        city.shops = data122.filter(item => item.city === city.name);
+      });
+    });
+
+    
+    var pc = true;
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  pc = false;
+}
+
+    map122 = L.map("map122", {
+  maxZoom: 18,
+  dragging: pc,
+  tap: pc
+
+}).setView([48.4520, 32.2234], 6);
+const mapEl = document.querySelector("#map122");
+mapEl.addEventListener("touchstart", onTwoFingerDrag);
+mapEl.addEventListener("touchend", onTwoFingerDrag);
+
+
+function onTwoFingerDrag (e) {
+  const isMarker = e.target.classList.contains('leaflet-marker-icon');
+
+    if (e.type === 'touchstart' && e.touches.length === 1 && !isMarker) {
+    e.currentTarget.classList.add('swiping')
+ } else {
+   e.currentTarget.classList.remove('swiping')
+  }
+}
+const attributionContainer = map122.attributionControl.getContainer();
+
+// Створення нового посилання на OpenStreetMap
+const osmAttribution = document.createElement('a');
+osmAttribution.href = 'https://www.openstreetmap.org/copyright';
+osmAttribution.textContent = ' | © OpenStreetMap contributors';
+
+// Додавання посилання на OpenStreetMap до контейнера атрибуції
+attributionContainer.appendChild(osmAttribution);
+
+function setMapView() {
+  // Отримати значення setmapview з localStorage
+
+  // Якщо ширина екрану менша або рівна 768px або місто не введено
+  if (window.innerWidth <= 768 || city122 === '') {
+    map122.setView([48.4520, 31.2234], 5);
+  }
+}
+
+    function searchCity122() {
+      const cityInput122 = document.getElementById('city-input122');
+      const searchResults122 = document.getElementById('search-results122');
+      let city122 = cityInput122.value.trim().toLowerCase();
+      const searchResultList122 = document.getElementById('searchResultList122');
+     
+    // Опціонально можна змінити стиль на display: flex; при наявності результатів пошуку
+    searchResultList122.style.display = 'flex';
+      searchResultList122.innerHTML = '';
+
+   
+      // Перевірка, чи не є поле введення порожнім
+      if (city122 === '') {
+        map122.setView([48.4520, 32.2234], 6);
+      }
+  
+  
+       else {
+        // Фільтрація міст за точним збігом назви
+        const filteredCities122 = cities122.filter(cityItem122 => cityItem122.name.toLowerCase().startsWith(city122));
+
+        // Видалення дублікатів за допомогою колекції Set
+        const uniqueCities122 = Array.from(new Set(filteredCities122.map(cityItem122 => cityItem122.name)));
+        clearShopList();
+        // Відображення результатів
+        uniqueCities122.forEach(cityName => {
+          const cityElement122 = document.createElement('span');
+          cityElement122.classList.add('span-nodisplay122');
+          cityElement122.textContent = cityName;
+          searchResultList122.appendChild(cityElement122);
+
+          // Додавання події на клік для зміни позиції карти
+          const cityItem122 = filteredCities122.find(item => item.name.toLowerCase() === cityName.toLowerCase());
+          cityElement122.addEventListener('click', () => {
+            map122.setView(cityItem122.latlng, cityItem122.zoom);
+            displayShops122(cityItem122.shops, cityItem122.latlng);
+            const elements = document.querySelectorAll('.span-nodisplay122');
+
+// Додаємо стиль display: none до кожного знайденого елемента
+elements.forEach(element => {
+  element.style.display = 'none';
+});
+
+          });
+        });
+
+        // Відображення повідомлення про відсутність результатів
+        if (uniqueCities122.length === 0) {
+          const noResultsItem122 = document.createElement('div');
+          noResultsItem122.textContent = 'Город не найден';
+          noResultsItem122.classList.add('search-result-item122', 'no-results122');
+          searchResultList122.appendChild(noResultsItem122);
+        }
+      }
+    }
+ 
+    // Функція відображення списку магазинів
+    function displayShops122(shops, latlng) {
+      const shopListContainer122 = document.createElement('div');
+      shopListContainer122.classList.add('shop-list122');
+      shops.forEach(shop => {
+
+        const shopItemTel122 = document.createElement('a');
+        shopItemTel122.classList.add('shopItemTel122');
+        shopItemTel122.href = 'tel:' + shop.tel;
+        shopItemTel122.textContent = ` 📞 ${shop.tel}`
+
+        const shopItemTime122 = document.createElement('div');
+        shopItemTime122.classList.add('shop-itemTime')
+        shopItemTime122.textContent = `🕒 ${shop.time}`;
+        
+        const shopItemName122 = document.createElement('div');
+        const shopItemNameCity122 = document.createElement('div');
+        shopItemNameCity122.textContent = `${shop.city}`;
+        shopItemName122.textContent = `  ${shop.name}`
+        shopItemName122.classList.add('shop-item122');
+        shopItemNameCity122.classList.add('shopItemNameCity122');
+        shopItemName122.addEventListener('click', function() {
+          map122.setView(L.latLng(shop.coordinates[0], shop.coordinates[1]), 16);
+        });
+        const shopItemRouteButton122 = document.createElement('button');
+        shopItemRouteButton122.textContent = 'Проложить маршрут';
+        shopItemRouteButton122.classList.add('shopItemButton122');
+        shopItemRouteButton122.addEventListener('click', function() {
+          createGoogleMapsRoute122(shop.urlCoodinates);
+        });
+        const shopItemBorderBottom122 = document.createElement('div');
+        shopItemBorderBottom122.classList.add('shopItemTime122');
+        shopListContainer122.appendChild(shopItemNameCity122);
+        shopListContainer122.appendChild(shopItemName122);
+        shopListContainer122.appendChild(shopItemTel122);
+        shopListContainer122.appendChild(shopItemTime122);
+        shopListContainer122.appendChild(shopItemRouteButton122);
+        shopListContainer122.appendChild(shopItemBorderBottom122);
+      });
+      document.getElementById('search-results122').appendChild(shopListContainer122);
+ 
+    }
+
+    function createGoogleMapsRoute122(url) {
+      window.open(url, '_blank');
+    }
+ 
+    $.getJSON('https://raw.githubusercontent.com/bogach816777/apiUkr/main/geo.json').then(function(geoJSON) {
+      const osm122 = new L.TileLayer.BoundaryCanvas("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        boundary: geoJSON,
+      });
+
+      map122.addLayer(osm122);
+    });
+   
+    // Виклик функції для встановлення початкового значення
+    setMapView();
+    
+
+    // Функція для створення DivIcon з інформаційною панеллю
+    function createCustomMarkerPopup122(shop) {
+      const container = document.createElement('div');
+      container.className = 'custom-popup';
+      container.innerHTML = `
+        <h4 style="
+    margin-bottom: 0px;
+" class="shop-item122">${shop.name}</h4>
+        <a class="shopItemTel122" href="tel:${shop.tel}">📞 ${shop.tel}</a>
+        <p style="
+    margin: 0px;
+" class="shop-itemTime">🕒 ${shop.time}</p>
+<button style="border-radius: 5px; border: none; background-color: #A2C617; padding: 10px; font-weight: bold; cursor: pointer; color: #ffffff; font-size: 14px;" onmouseover="this.style.backgroundColor='#b6da2b'; this.style.color='white';" onmouseout="this.style.backgroundColor='#A2C617'; this.style.color='#ffffff';" onclick="createGoogleMapsRoute122('${shop.urlCoodinates}')">Проложить маршрут</button>
+      `;
+      return container;
+    }
+ 
+    function showCityShops(cityName) {
+  const city = cities122.find(city => city.name === cityName);
+  if (city) {
+    const currentCity122 = document.getElementById("currentCity122");
+    map122.setView(city.latlng, city.zoom);
+    clearShopList(); // Очищення списку магазинів перед додаванням нових елементів
+    displayShops122(city.shops, city.latlng);
+    document.getElementById('search-results122').scrollTop = 0;
+  }
+}
+function clearShopList() {
+  const shopListContainer = document.getElementById('search-results122');
+  shopListContainer.innerHTML = ''; // Очищення списку магазинів
+}
+
+
+  </script>
+
+</div>
+</body>
+</html>
