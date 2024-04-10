@@ -903,16 +903,6 @@
         "city": "Днепр",
         "cityCoordinates": [48.46426000198422, 35.05253838396948],
         "zoomCity": 10,
-        "name": "ТРЦ «Караван» (ул. Нижнеднепровская, 17, 1-й этаж)",
-        "tel": "056-747-91-93",
-        "time": "10:00-20:00",
-        "coordinates": [48.529588657766865, 35.02961041547206],
-        "urlCoodinates": "https://www.google.com/maps/place/%D0%97%D0%BE%D0%BE%D0%BC%D0%B0%D1%80%D0%BA%D0%B5%D1%82+MasterZoo/@48.5294359,35.0295675,17z/data=!3m1!4b1!4m6!3m5!1s0x40dbe3b839aa4ecb:0xa8a6f576efc2d323!8m2!3d48.5294359!4d35.0295675!16s%2Fg%2F1tfvxp7c?hl=ru&entry=ttu"
-    },
-    {
-        "city": "Днепр",
-        "cityCoordinates": [48.46426000198422, 35.05253838396948],
-        "zoomCity": 10,
         "name": "ТРЦ «Neo Plaza» (ул. Марии Кюри, 5, 1-й этаж)",
         "tel": "095-781-13-63",
         "time": "10:00-21:00",
