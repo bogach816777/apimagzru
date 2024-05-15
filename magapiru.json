@@ -1238,9 +1238,8 @@
         "cityCoordinates": [50.22797710304915, 30.65487810762016],
         "name": "ул. Партизанская, 15 ",
         "tel": "093-180-70-73",
-        "time": "10:00-20:00",
-        "coordinates": [undefined, undefined],
-        "urlCoodinates": "undefined"
+        "time": "10:00-20:00"
+     
     },
      {
         "city": "Борисполь",
