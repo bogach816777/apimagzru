@@ -1559,16 +1559,6 @@
         "city": "Черкасы",
         "cityCoordinates": [49.4414096884242, 32.06473736938969],
         "zoomCity": 12,
-        "name": "ул. Героев Днепра, 6",
-        "tel": "066-873-11-30",
-        "time": "9:00-20:00",
-        "coordinates": [49.43935490471502, 32.09313805691936],
-        "urlCoodinates": "https://www.google.com/maps/place/%D0%97%D0%BE%D0%BE%D0%BC%D0%B0%D1%80%D0%BA%D0%B5%D1%82+MasterZoo/@49.4393808,32.0932011,21z/data=!4m6!3m5!1s0x40d14bbe9c531b41:0xd21a554561ee96dd!8m2!3d49.4393485!4d32.093142!16s%2Fg%2F11l32hq6gh?hl=uk&entry=ttu"
-    },
-    {
-        "city": "Черкасы",
-        "cityCoordinates": [49.4414096884242, 32.06473736938969],
-        "zoomCity": 12,
         "name": "ул. Владимира Великого, 55/2",
         "tel": "066-873-10-97",
         "time": "9:00-20:00",
